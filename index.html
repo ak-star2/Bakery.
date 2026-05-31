@@ -1,1 +1,1157 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Freshly Baked Happiness Every Day. Artisan breads, cakes, pastries, and desserts made with love and premium ingredients.">
+    <title>L'Artisan Bakery | Premium Breads & Pastries</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght=0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables for Premium Bakery Palette */
+        :root {
+            --cream: #FDFBF7;
+            --beige: #F3E8E0;
+            --soft-brown: #8C5A40;
+            --dark-brown: #3E2723;
+            --gold: #C79A3A;
+            --gold-hover: #B5882B;
+            --text-dark: #2C1E16;
+            --text-light: #FDFBF7;
+            
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            
+            /* Slow, Elegant Cinematic Transitions */
+            --transition-slow: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background-color: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-logo {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- LUXURY SLOW MOTION ANIMATION ENGINE --- */
+        .animate-on-scroll {
+            opacity: 0;
+            will-change: transform, opacity;
+            transition: var(--transition-slow);
+        }
+        
+        .anim-fade-up { transform: translateY(50px); }
+        .anim-slide-left { transform: translateX(-60px); }
+        .anim-slide-right { transform: translateX(60px); }
+        .anim-scale-up { transform: scale(0.95); }
+
+        /* Triggered via Intersection Observer */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translate(0) scale(1);
+        }
+
+        /* Distinct Staggered Delays for Slow Fluidity */
+        .delay-1 { transition-delay: 0.15s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.45s; }
+        .delay-4 { transition-delay: 0.6s; }
+        .delay-5 { transition-delay: 0.75s; }
+        .delay-6 { transition-delay: 0.9s; }
+
+        /* Interactive Elements & Micro-interactions */
+        .btn {
+            display: inline-block;
+            padding: 15px 36px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--gold);
+            color: var(--text-light);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold-hover);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-primary:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(199, 154, 58, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-light);
+            color: var(--text-dark);
+            border-color: var(--text-light);
+            transform: translateY(-4px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--soft-brown);
+            border: 1px solid var(--soft-brown);
+            padding: 12px 28px;
+            font-size: 0.8rem;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--soft-brown);
+            color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+        /* Header / Navbar Global Infrastructure */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(44, 30, 22, 0.0);
+            backdrop-filter: blur(0px);
+            padding: 35px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-slow);
+        }
+
+        header.scrolled {
+            padding: 18px 5%;
+            background: rgba(44, 30, 22, 0.95);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+        }
+
+        .brand-logo {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 700;
+            font-style: italic;
+            transition: var(--transition-fast);
+        }
+
+        .brand-logo:hover {
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            position: relative;
+            padding: 6px 0;
+            opacity: 0.85;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        /* Hero Layout Container */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            background: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 14, 10, 0.62);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            color: var(--text-light);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 24px;
+            line-height: 1.15;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 44px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.7s;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 1s;
+        }
+
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Layout Rules */
+        section {
+            padding: 120px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--dark-brown);
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            margin: 20px auto 0;
+            transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+
+        .is-visible.section-title::after {
+            width: 60px;
+        }
+
+        /* Product Showcase Grid Configuration */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(44, 30, 22, 0.02);
+            transition: var(--transition-slow);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(44, 30, 22, 0.08);
+        }
+
+        .product-img-wrapper {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background-color: var(--beige);
+            position: relative;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.06);
+        }
+
+        .product-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.4rem;
+            color: var(--dark-brown);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            height: 45px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        /* Editorial Split-Screen Section Layout */
+        #about {
+            background-color: var(--beige);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .about-text h2 {
+            font-size: 2.8rem;
+            color: var(--dark-brown);
+            margin-bottom: 24px;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .about-text p {
+            font-size: 1.05rem;
+            margin-bottom: 24px;
+            color: #554135;
+            font-weight: 300;
+        }
+
+        .about-signature {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--soft-brown);
+            margin-top: 30px;
+        }
+
+        .about-img-wrapper {
+            width: 100%;
+            height: 520px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+        }
+
+        .about-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Strategic Features Layout Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .feature-item {
+            padding: 40px 20px;
+            transition: var(--transition-fast);
+            border-radius: 4px;
+        }
+
+        .feature-item:hover {
+            background: #fff;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            transform: translateY(-6px);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 24px;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-item:hover .feature-icon {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .feature-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: var(--dark-brown);
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* Customer Reviews Architecture */
+        #testimonials {
+            background-color: var(--beige);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background: #fff;
+            padding: 50px 35px;
+            border-radius: 4px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+            transition: var(--transition-slow);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+        }
+
+        .stars {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 30px;
+            color: #4a4a4a;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .customer-img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 18px;
+            border: 3px solid var(--beige);
+        }
+
+        .testimonial-card h4 {
+            font-size: 1.1rem;
+            color: var(--dark-brown);
+            font-weight: 600;
+        }
+
+        /* Refined Editorial Masonry Structural Layout */
+        .gallery-masonry {
+            column-count: 3;
+            column-gap: 25px;
+        }
+
+        .gallery-item {
+            margin-bottom: 25px;
+            break-inside: avoid;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--beige);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 30, 22, 0.5);
+            opacity: 0;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* High Conversion Promotional Banner CTA */
+        #offer {
+            background: linear-gradient(rgba(44, 30, 22, 0.82), rgba(44, 30, 22, 0.82)), url('https://images.unsplash.com/photo-1511018556340-d16986a1c194?auto=format&fit=crop&w=1920&q=80') center/cover;
+            text-align: center;
+            color: var(--text-light);
+            padding: 120px 5%;
+        }
+
+        #offer h2 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        /* Structural Communications Grid (Contact) */
+        #contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-info .section-title {
+            text-align: left;
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+        }
+
+        .contact-info .section-title::after {
+            margin: 20px 0 0 0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+            font-size: 1.05rem;
+        }
+
+        .contact-item i {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-right: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .map-container {
+            margin-top: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+            background-color: var(--beige);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 18px;
+            border: 1px solid #E0DCD6;
+            border-radius: 2px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: var(--transition-fast);
+            background-color: #fff;
+            color: var(--text-dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 8px 25px rgba(199, 154, 58, 0.05);
+            transform: translateY(-2px);
+        }
+
+        textarea.form-control {
+            height: 160px;
+            resize: vertical;
+        }
+
+        /* Corporate Footer System */
+        footer {
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            padding: 100px 8% 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.51fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 14px;
+        }
+
+        .footer-col ul li a {
+            transition: var(--transition-fast);
+            display: inline-block;
+            font-size: 0.95rem;
+            opacity: 0.7;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icons a {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition-fast);
+            font-size: 0.95rem;
+        }
+
+        .social-icons a:hover {
+            background: var(--gold);
+            color: var(--text-light);
+            transform: translateY(-4px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.9rem;
+            color: #8a8079;
+        }
+
+        /* Responsive Architecture Infrastructure Overrides */
+        @media (max-width: 1100px) {
+            #about, #contact { grid-template-columns: 1fr; gap: 60px; }
+            .contact-info .section-title { text-align: center; }
+            .contact-info .section-title::after { margin: 20px auto 0; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        }
+
+        @media (max-width: 900px) {
+            .hero-content h1 { font-size: 3.2rem; }
+            .gallery-masonry { column-count: 2; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 25px 5%; }
+            .menu-toggle { display: block; }
+            
+            .nav-links { 
+                display: flex; 
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                max-width: 360px;
+                height: 100vh;
+                background: rgba(34, 23, 17, 0.98);
+                backdrop-filter: blur(20px);
+                align-items: center;
+                justify-content: center;
+                gap: 35px;
+                transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 999;
+                box-shadow: 10px 0 40px rgba(0,0,0,0.2);
+            }
+
+            .nav-links.active {
+                transform: translateX(118%);
+            }
+
+            .hero-content h1 { font-size: 2.6rem; }
+            .hero-buttons { flex-direction: column; gap: 12px; }
+            .section-title { font-size: 2.2rem; }
+            .about-img-wrapper { height: 380px; }
+        }
+
+        @media (max-width: 550px) {
+            .gallery-masonry { column-count: 1; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            section { padding: 80px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="navbar">
+        <a href="#" class="brand-logo">L'Artisan</a>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <nav class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#products">Menu</a>
+            <a href="#about">Our Story</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Freshly Baked Happiness Every Day</h1>
+            <p>Handcrafted breads, cakes, pastries, and desserts made with love and premium ingredients.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Order Now</a>
+                <a href="#products" class="btn btn-secondary">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2 class="section-title animate-on-scroll anim-fade-up">Our Masterpieces</h2>
+        <div class="products-grid">
+            
+            <div class="product-card animate-on-scroll anim-fade-up delay-1">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80" alt="Artisan Sourdough Bread Boule" class="product-img" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>Artisan Bread</h3>
+                    <p>Sourdough boules baked daily with a crispy caramelized crust and light, airy crumb.</p>
+                    <div class="price">$6.00</div>
+                    <a href="#contact" class="btn btn-outline">Order Now</a>
+                </div>
+            </div>
+
+            <div class="product-card animate-on-scroll anim-fade-up delay-2">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80" alt="Rich Chocolate Ganache Layer Cake" class="product-img" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>Chocolate Cake</h3>
+                    <p>Decadent, deep cocoa sponge layers paired with premium dark Belgian chocolate ganache.</p>
+                    <div class="price">$45.00</div>
+                    <a href="#contact" class="btn btn-outline">Order Now</a>
+                </div>
+            </div>
+
+            <div class="product-card animate-on-scroll anim-fade-up delay-3">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" alt="Flaky French Butter Croissants" class="product-img" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>Butter Croissants</h3>
+                    <p>Laminated pastry layered with pure French butter, baked to a golden shatter crackle.</p>
+                    <div class="price">$4.50</div>
+                    <a href="#contact" class="btn btn-outline">Order Now</a>
+                </div>
+            </div>
+
+            <div class="product-card animate-on-scroll anim-fade-up delay-4">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80" alt="Assorted Gourmet Vanilla Frosting Cupcakes" class="product-img" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>Gourmet Cupcakes</h3>
+                    <p>Moist artisanal single-serving cakes capped with whipped Madagascar buttercream swirls.</p>
+                    <div class="price">$3.50</div>
+                    <a href="#contact" class="btn btn-outline">Order Now</a>
+                </div>
+            </div>
+
+            <div class="product-card animate-on-scroll anim-fade-up delay-5">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80" alt="Chewy Chocolate Chip Pastry Cookies" class="product-img" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>Chocolate Chip Cookies</h3>
+                    <p>Fudgy center with crispy browned butter parameters and premium bittersweet chocolate pooling.</p>
+                    <div class="price">$2.50</div>
+                    <a href="#contact" class="btn btn-outline">Order Now</a>
+                </div>
+            </div>
+
+            <div class="product-card animate-on-scroll anim-fade-up delay-6">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1535141192574-5d4897c12636?auto=format&fit=crop&w=600&q=80" alt="Elegant Custom Floral Celebration Wedding Cake" class="product-img" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>Celebration Cakes</h3>
+                    <p>Bespoke visual statement structures uniquely designed for milestone weddings and events.</p>
+                    <div class="price">From $60</div>
+                    <a href="#contact" class="btn btn-outline">Order Now</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-text animate-on-scroll anim-slide-left">
+            <h2>Baked Fresh, Served With Deep Devotion</h2>
+            <p>We operate under a simple, foundational design methodology: premium culinary ingredients mixed manually without shortcuts. Every batch of artisan flour undergoes calculated, cold fermentation spans to reach maximum flavor metrics naturally.</p>
+            <p>From our signature levain cultures to the hand-applied decorations detailing our celebration menu, quality remains non-negotiable. This is where classical continental processes meet your daily table environment.</p>
+            <div class="about-signature">Chef L'Artisan</div>
+        </div>
+        <div class="about-img-wrapper animate-on-scroll anim-slide-right">
+            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="Pastry Chef Kneading Sourdough Dough Inside Bakery Kitchen" class="about-img" loading="lazy">
+        </div>
+    </section>
+
+    <section id="features">
+        <h2 class="section-title animate-on-scroll anim-fade-up">Precision Elements</h2>
+        <div class="features-grid">
+            <div class="feature-item animate-on-scroll anim-scale-up delay-1">
+                <i class="fa-solid fa-seedling feature-icon"></i>
+                <h3>Organic Sourcing</h3>
+                <p>Completely traceable unbleached grains and local farm dairy pillars form our bases.</p>
+            </div>
+            <div class="feature-item animate-on-scroll anim-scale-up delay-2">
+                <i class="fa-solid fa-bread-slice feature-icon"></i>
+                <h3>Pre-Dawn Prep</h3>
+                <p>Ovens fired up at 3:00 AM daily to guarantee optimal crust conditions at opening hours.</p>
+            </div>
+            <div class="feature-item animate-on-scroll anim-scale-up delay-3">
+                <i class="fa-solid fa-cake-candles feature-icon"></i>
+                <h3>Bespoke Orders</h3>
+                <p>Collaborate directly with design staff to construct customized culinary centerpieces.</p>
+            </div>
+            <div class="feature-item animate-on-scroll anim-scale-up delay-4">
+                <i class="fa-solid fa-truck-fast feature-icon"></i>
+                <h3>Catering Transport</h3>
+                <p>Climate-controlled secure dispatch lines preserve visual styling architecture during routing.</p>
+            </div>
+            <div class="feature-item animate-on-scroll anim-scale-up delay-5">
+                <i class="fa-solid fa-star feature-icon"></i>
+                <h3>Classic Pedigree</h3>
+                <p>Our kitchen management profiles possess deep background training inside European institutions.</p>
+            </div>
+            <div class="feature-item animate-on-scroll anim-scale-up delay-6">
+                <i class="fa-solid fa-heart feature-icon"></i>
+                <h3>Community Focus</h3>
+                <p>Proudly fueling neighborhoods and neighborhood culinary circles for generations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2 class="section-title animate-on-scroll anim-fade-up">Client Experiences</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card animate-on-scroll anim-fade-up delay-1">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80" alt="Sarah Jenkins portrait review" class="customer-img" loading="lazy">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"The crisp butter lamination metric on their croissants rivals anything I've sourced inside Paris proper. A mandatory weekend morning destination."</p>
+                <h4>Sarah Jenkins</h4>
+            </div>
+            <div class="testimonial-card animate-on-scroll anim-fade-up delay-2">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80" alt="Michael Torres portrait review" class="customer-img" loading="lazy">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Our customized chocolate reception layout architecture exceeded aesthetic parameters and remained extraordinarily moist. Truly phenomenal work."</p>
+                <h4>Michael Torres</h4>
+            </div>
+            <div class="testimonial-card animate-on-scroll anim-fade-up delay-3">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80" alt="Emily Chen portrait review" class="customer-img" loading="lazy">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Their house wild yeast sourdough boules feature unmatched complexity profiles. Ordinary grocery alternatives are permanently ruined for me."</p>
+                <h4>Emily Chen</h4>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title animate-on-scroll anim-fade-up">The Atelier Gallery</h2>
+        <div class="gallery-masonry animate-on-scroll anim-scale-up">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1515516969-d4008cc6241a?auto=format&fit=crop&w=500&q=80" alt="Fresh artisan loaves stacked neatly" loading="lazy">
+                <div class="gallery-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=500&q=80" alt="Dusting sugar over fresh premium pancakes" loading="lazy">
+                <div class="gallery-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1620921556328-1a9300dce76d?auto=format&fit=crop&w=500&q=80" alt="Detailed close-up on strawberry tart glazing" loading="lazy">
+                <div class="gallery-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=500&q=80" alt=" Pouring artisan microfoam coffee art" loading="lazy">
+                <div class="gallery-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1558961312-50a49c93ac3a?auto=format&fit=crop&w=500&q=80" alt="A collection of fresh cookies on kitchen slate" loading="lazy">
+                <div class="gallery-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=500&q=80" alt="Delicate small macaron displays" loading="lazy">
+                <div class="gallery-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="offer" class="animate-on-scroll anim-fade-up">
+        <h2>Join The Epicurean Circle</h2>
+        <p style="margin-bottom: 35px; font-size: 1.2rem; font-weight: 300;">Subscribe to our morning release ledger for exclusive batch allocation discounts.</p>
+        <a href="#contact" class="btn btn-primary">Claim 15% Welcome Pass</a>
+    </section>
+
+    <section id="contact">
+        <div class="contact-info animate-on-scroll anim-slide-left">
+            <h2 class="section-title">Connect With Us</h2>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <p>123 Baker Street, Artisan District, NY 10001</p>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <p>+1 (555) 123-4567</p>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <p>concierge@lartisanbakery.com</p>
+            </div>
+            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.617539316904!2d-73.98785302341905!3d40.74844047138914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1710000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <div class="contact-form animate-on-scroll anim-slide-right">
+            <form onsubmit="event.preventDefault(); alert('Your communication record has been safely logged. Our concierge staff will connect shortly.');">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Inquiry Focus (e.g., Custom Celebration Structure)">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Elaborate on your specialized requests..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Transmit Order Details</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="brand-logo" style="margin-bottom: 20px; color: var(--gold);">L'Artisan</h4>
+                <p style="color: #a49990; font-size: 0.95rem; font-weight: 300; padding-right: 15px;">Translating long-form classical baking methods to modern tables worldwide.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#hero">Home Base</a></li>
+                    <li><a href="#products">Product Menu</a></li>
+                    <li><a href="#about">Our Backstory</a></li>
+                    <li><a href="#gallery">Atelier Space</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Service Windows</h4>
+                <ul style="color: #a49990; font-size: 0.95rem; font-weight: 300;">
+                    <li>Mon - Fri: 6:00 AM - 7:00 PM</li>
+                    <li>Saturday: 7:00 AM - 6:00 PM</li>
+                    <li>Sunday: 7:00 AM - 2:00 PM</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Digital Presences</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 L'Artisan Bakery Corporation. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Drawer Handling Core
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
+            });
+        });
+
+        // Smart Navbar Background Alpha Adjustment Engine
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('navbar');
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer Core Implementation for Delayed Fluid Transitions
+        const observerOptions = {
+            root: null,
+            rootMargin: '-4% 0px -4% 0px',
+            threshold: 0.04
+        };
+
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll, .section-title').forEach(element => {
+            scrollObserver.observe(element);
+        });
+    </script>
+</body>
+</html>
 
